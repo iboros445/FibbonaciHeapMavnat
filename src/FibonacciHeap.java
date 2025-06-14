@@ -31,35 +31,39 @@ public class FibonacciHeap
 		this.totalCutsCount = 0;
 
 	}
+
 	/**
 	 * 
 	 * pre: key > 0
 	 *
 	 * Insert (key,info) into the heap and return the newly generated HeapNode.
 	 *
-	 */
-	public HeapNode insert(int key, String info) 
+	 */	public HeapNode insert(int key, String info) 
 	{   		
+		if (key <= 0) {
+			throw new IllegalArgumentException("Key must be positive");
+		}
+
+		// Create and initialize node efficiently
 		HeapNode node = new HeapNode();
 		node.key = key; 
 		node.info = info;
-		node.rank = 0;
-		node.isLoser = false;
-		node.parent = null;
-		node.child = null;
-		node.markCnt = 0;
+		// Other fields are already initialized to default values (0, false, null)
 		
-		if  (this.min != null){
-			addToRootList(node);
-			if (key < min.key){
-				min = node;
-			}
-		}else{
+		if (this.min == null) {
+			// First node in heap
 			min = node;
 			node.next = node;
 			node.prev = node;
 			this.length = 1;
+		} else {
+			// Add to root list and update min in one step
+			addToRootList(node);
+			if (key < min.key) {
+				min = node;
+			}
 		}
+		
 		size++; 
 		return node;
 	}
@@ -131,66 +135,77 @@ public class FibonacciHeap
 	}
 
 	private void addChildrenToRootList(HeapNode minNode) {
+	    if (minNode.child == null) return;
+	    
 	    HeapNode child = minNode.child;
 	    HeapNode firstChild = child;
 	    
+	    // First, break the children's circular list and reset their parent pointers
 	    do {
-	        HeapNode nextChild = child.next;
-	        
-	        // Remove child from its sibling list
-	        child.next = child;
-	        child.prev = child;
 	        child.parent = null;
-	        
-	        // Add child to root list
-	        if (min != null && min != minNode) {
-	            // Insert next to current min
-	            child.prev = min;
-	            child.next = min.next;
-	            min.next.prev = child;
-	            min.next = child;
-	        } else {
-	            // Special case: inserting around the node being deleted
-	            child.prev = minNode.prev;
-	            child.next = minNode;
-	            minNode.prev.next = child;
-	            minNode.prev = child;
-	        }
-	        
-	        length++; // Increase root list length
-	        child = nextChild;
+	        child = child.next;
 	    } while (child != firstChild);
+	    
+	    // Now splice the entire children list into the root list
+	    // Get the last child in the circular list
+	    HeapNode lastChild = firstChild.prev;
+	    
+	    // Insert the children list between minNode.prev and minNode
+	    HeapNode prevNode = minNode.prev;
+	    
+	    // Connect previous node to first child
+	    prevNode.next = firstChild;
+	    firstChild.prev = prevNode;
+	    
+	    // Connect last child to minNode
+	    lastChild.next = minNode;
+	    minNode.prev = lastChild;
+	    
+	    // Count children for length update
+	    HeapNode temp = firstChild;
+	    do {
+	        this.length++;
+	        temp = temp.next;
+	    } while (temp != firstChild);
 	}
 
-
-	// Get a list of all root nodes
+	// Get a list of all root nodes - optimized version
     private List<HeapNode> getRootList() {
-        List<HeapNode> rootList = new ArrayList<>();
-        if (min != null) {
-            HeapNode current = min;
-            do {
-                rootList.add(current);
-                current = current.next;
-            } while (current != min);
-        }
+        List<HeapNode> rootList = new ArrayList<>(this.length); // Pre-allocate with known size
+        if (min == null) return rootList;
+
+        HeapNode current = min;
+        int count = 0;
+        do {
+            rootList.add(current);
+            current = current.next;
+            count++;
+            if (count > this.length + 1) { // Simple bounds check instead of HashSet
+                System.err.println("ERROR: Infinite loop detected in root list!");
+                break;
+            }
+        } while (current != min);
+        
         return rootList;
-    }	    
-	
-	// Consolidate the trees in the root list
+    }		// Consolidate the trees in the root list - optimized version
     private int consolidate() {
-        int arraySize = ((int) Math.floor(Math.log(this.size) / Math.log(2.0))) + 1;
-        List<HeapNode> array = new ArrayList<>();
-		for (int i = 0; i < arraySize; i++) {
-			array.add(null);
-		}
+        if (size == 0) return 0;
+        
+        // Pre-calculate array size more efficiently
+        int arraySize = 45; // log_2(2^31) = 31, but we add some buffer. 45 should be more than enough
+        HeapNode[] array = new HeapNode[arraySize]; // Use array instead of ArrayList for better performance
 
         List<HeapNode> rootList = getRootList();
         int links = 0;
 
         for (HeapNode node : rootList) {
             int rank = node.rank;
-            while (array.get(rank) != null) {
-                HeapNode other = array.get(rank);
+            
+            // Simple bounds check - should rarely trigger with size 45
+            if (rank >= arraySize) continue; // Skip instead of error logging for performance
+            
+            while (rank < arraySize && array[rank] != null) {
+                HeapNode other = array[rank];
                 if (node.key > other.key) {
                     HeapNode temp = node;
                     node = other;
@@ -200,17 +215,21 @@ public class FibonacciHeap
               	// Link two trees of the same rank
                 link(other, node); 
                 links++;
-                array.set(rank, null);
+                array[rank] = null;
                 rank++;
             }
-            array.set(rank, node);
+            
+            if (rank < arraySize) {
+                array[rank] = node;
+            }
         }
 
 		this.min = null;
 		this.length = 0;
+		
+		// Rebuild root list from array - optimized
 		for (HeapNode node : array) {
 			if (node != null) {
-				// Reset node's next/prev pointers to itself
 				node.next = node;
 				node.prev = node;
 				
@@ -218,7 +237,7 @@ public class FibonacciHeap
 					this.min = node;
 					this.length = 1;
 				} else {
-					// Manually insert into root list without using addToRootList
+					// Manually insert into root list
 					node.prev = this.min.prev;
 					node.next = this.min;
 					this.min.prev.next = node;
@@ -261,13 +280,11 @@ public class FibonacciHeap
         node.prev.next = node.next;
         node.next.prev = node.prev;
     }
-
 	/**
 	 * Cut a node from its parent and add it to the root list
 	 */
 	private int cut(HeapNode x, HeapNode y) {
 		// Remove x from child list of y
-		System.out.println("Arrived at cut for "+x.key+" "+y.key);
 		if (x.next == x) {
 			y.child = null;
 		} else {
@@ -280,11 +297,8 @@ public class FibonacciHeap
 		
 		y.rank--;
 		
-		// Add x to root list
-		x.prev = min;
-		x.next = min.next;
-		min.next.prev = x;
-		min.next = x;
+		// Add x to root list efficiently
+		addToRootList(x);
 		
 		x.parent = null;
 		x.isLoser = false;
@@ -293,6 +307,8 @@ public class FibonacciHeap
 		
 		return 1;
 	}
+
+
 	/**
 	 * Perform cascading cut operation
 	 */
@@ -316,7 +332,6 @@ public class FibonacciHeap
 		
 		return cuts;
 	}
-
 	/**
 	 * 
 	 * pre: 0<diff<x.key
@@ -327,37 +342,41 @@ public class FibonacciHeap
 	 */
 	public int decreaseKey(HeapNode x, int diff) 
 	{    
-		x.key = x.key - diff;
-		HeapNode parent = x.parent;
-		int cuts = 0;
-		
-		if (parent != null && x.key < parent.key) {
-			cuts += cut(x, parent);
-			cuts += cascadingCut(parent);
-		}
-		
-		if (x.key < min.key) {
-			min = x;
-		}
-		
-		return cuts;
-	}	/**
+	    // Validate input - simplified for performance
+	    if (x == null || diff <= 0 || diff > x.key) {
+	        throw new IllegalArgumentException("Invalid decrease key operation");
+	    }
+	    
+	    x.key = x.key - diff;
+	    HeapNode parent = x.parent;
+	    int cuts = 0;
+	    
+	    if (parent != null && x.key < parent.key) {
+	        cuts += cut(x, parent);
+	        cuts += cascadingCut(parent);
+	    }
+	    
+	    if (x.key < min.key) {
+	        min = x;
+	    }
+	    
+	    return cuts;
+	}/**
 	 * 
 	 * Delete the x from the heap.
 	 * Return the number of links.
 	 *
-	 */
-	public int delete(HeapNode x) 
+	 */	public int delete(HeapNode x) 
 	{    
-		// Decrease key to negative infinity (minimum possible value)
-		decreaseKey(x, x.key - Integer.MIN_VALUE);
-		
-		// Delete minimum (which is now x)
-		System.out.println("Current min is Before: "+this.min.key);
-
-		int links = deleteMin();
-		System.out.println("Current min is after: "+this.min.key);
-		return links;
+	    // Make x smaller than current minimum
+	    int diff = x.key - min.key + 1;
+	    if (diff > 0) {
+	        decreaseKey(x, diff);
+	    }
+	    
+	    // Delete minimum (which is now x)
+	    int links = deleteMin();
+	    return links;
 	}
 
 	/**
