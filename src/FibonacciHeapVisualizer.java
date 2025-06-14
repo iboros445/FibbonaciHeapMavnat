@@ -1,10 +1,10 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.CancellationException; // Added for SwingWorker error handling
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException; // Added for SwingWorker error handling
+import javax.swing.*; // Added for SwingWorker error handling
 
 /**
  * Enhanced Swing-based visualization for FibonacciHeap with responsive layout
@@ -297,13 +297,12 @@ class FibonacciHeapVisualizer extends JFrame {
         private int minHorizontalSpacing = 60;
         private int minVerticalSpacing = 80;
         private double zoomFactor = 1.0;
-        private String layoutStyle = "Compact";
-
-        private final Color NODE_COLOR = new Color(102, 126, 234);
+        private String layoutStyle = "Compact";        private final Color NODE_COLOR = new Color(102, 126, 234);
         private final Color MIN_NODE_COLOR = new Color(231, 76, 60);
         private final Color EDGE_COLOR = new Color(52, 73, 94);
         private final Color HORIZONTAL_EDGE_COLOR = new Color(39, 174, 96);
         private final Color MARKED_NODE_COLOR = new Color(255, 165, 0); // Orange for marked nodes
+        private final Color LOSER_NODE_COLOR = new Color(147, 112, 219); // Purple for loser nodes
 
         private Map<FibonacciHeap.HeapNode, Point> nodePositions = new HashMap<>();
         private Dimension contentSize = new Dimension(800, 600);
@@ -825,12 +824,12 @@ class FibonacciHeapVisualizer extends JFrame {
 
             for (Map.Entry<FibonacciHeap.HeapNode, Point> entry : nodePositions.entrySet()) {
                 FibonacciHeap.HeapNode node = entry.getKey();
-                Point nodePos = entry.getValue();
-
-                // Determine node color
+                Point nodePos = entry.getValue();                // Determine node color
                 Color nodeColor = NODE_COLOR;
                 if (node == heap.min) {
                     nodeColor = MIN_NODE_COLOR;
+                } else if (node.isLoser) { // Check for loser nodes first
+                    nodeColor = LOSER_NODE_COLOR;
                 } else if (node.markCnt > 0) { // Mark colored if mark count is greater than 0
                     nodeColor = MARKED_NODE_COLOR;
                 }

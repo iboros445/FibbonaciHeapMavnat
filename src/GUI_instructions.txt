@@ -1,7 +1,0 @@
-import javax.swing.*; //בתחילת הקובץ
-    public void visualize() {
-        SwingUtilities.invokeLater(() -> {
-            new FibonacciHeapVisualizer(this).setVisible(true);
-        });
-    }
-ואת זה תוסיף למחלקה שלך
