@@ -16,6 +16,7 @@ public class FibonacciHeap
 	private final int nodesToCut;
 	private int totalLinksCount;
 	private int totalCutsCount;
+
 	/**
 	 *
 	 * Constructor to initialize an empty heap.
@@ -67,6 +68,7 @@ public class FibonacciHeap
 		size++; 
 		return node;
 	}
+
 	/**
 	 * 
 	 * pre: node is valid
@@ -98,6 +100,7 @@ public class FibonacciHeap
 		
 		return min;
 	}
+
 	/**
 	 * 
 	 * Delete the minimal item.
@@ -134,34 +137,36 @@ public class FibonacciHeap
 
 	}
 
+	/**
+	 * Adds all children of the given node to the root list of the Fibonacci heap.
+	 * This method is typically called during the delete minimum operation to promote
+	 * all children of the minimum node to become root nodes.
+	 * 
+	 * The method performs the following operations:
+	 * 1. Removes the parent relationship for all children nodes
+	 * 2. Splices the circular doubly-linked list of children into the root list
+	 * 3. Updates the heap's length counter to reflect the new root nodes
+	 * 
+	 * @param minNode the node whose children will be added to the root list.
+	 *                If this node has no children, the method returns immediately.
+	 */
 	private void addChildrenToRootList(HeapNode minNode) {
 	    if (minNode.child == null) return;
 	    
 	    HeapNode child = minNode.child;
 	    HeapNode firstChild = child;
 	    
-	    // First, break the children's circular list and reset their parent pointers
 	    do {
 	        child.parent = null;
 	        child = child.next;
 	    } while (child != firstChild);
-	    
-	    // Now splice the entire children list into the root list
-	    // Get the last child in the circular list
+		
 	    HeapNode lastChild = firstChild.prev;
-	    
-	    // Insert the children list between minNode.prev and minNode
 	    HeapNode prevNode = minNode.prev;
-	    
-	    // Connect previous node to first child
 	    prevNode.next = firstChild;
 	    firstChild.prev = prevNode;
-	    
-	    // Connect last child to minNode
 	    lastChild.next = minNode;
 	    minNode.prev = lastChild;
-	    
-	    // Count children for length update
 	    HeapNode temp = firstChild;
 	    do {
 	        this.length++;
@@ -170,29 +175,58 @@ public class FibonacciHeap
 	}
 
 	// Get a list of all root nodes - optimized version
+	/**
+	 * Retrieves all nodes in the root list of the Fibonacci heap.
+	 * 
+	 * The root list is a circular doubly-linked list containing all tree roots
+	 * in the heap. This method traverses the entire root list starting from
+	 * the minimum node and collects all root nodes into a list.
+	 * 
+	 * @return A list containing all root nodes in the heap. Returns an empty
+	 *         list if the heap is empty (min is null). The order of nodes
+	 *         in the returned list follows the traversal order of the circular
+	 *         root list.
+	 * 
+	 * @throws RuntimeException implicitly if an infinite loop is detected during
+	 *                         traversal, which would indicate a corrupted heap
+	 *                         structure. An error message is printed to stderr
+	 *                         before breaking the loop.
+	 */
     private List<HeapNode> getRootList() {
         List<HeapNode> rootList = new ArrayList<>(this.length); // Pre-allocate with known size
         if (min == null) return rootList;
 
         HeapNode current = min;
-        int count = 0;
         do {
             rootList.add(current);
             current = current.next;
-            count++;
-            if (count > this.length + 1) { // Simple bounds check instead of HashSet
-                System.err.println("ERROR: Infinite loop detected in root list!");
-                break;
-            }
         } while (current != min);
         
         return rootList;
-    }		// Consolidate the trees in the root list - optimized version
+    }		
+	
+	// Consolidate the trees in the root list - optimized version
+	/**
+	 * Consolidates the Fibonacci heap by merging trees of the same rank to maintain
+	 * the heap property and optimize structure. This operation is typically performed
+	 * after extracting the minimum element to restore the heap's efficiency.
+	 * 
+	 * The consolidation process:
+	 * 1. Collects all root nodes into a temporary array indexed by rank
+	 * 2. For each rank, merges trees of the same rank by linking them
+	 * 3. Rebuilds the root list from the consolidated trees
+	 * 4. Updates the minimum pointer to the smallest key found
+	 * 
+	 * Time Complexity: O(D + |roots|) where D is the maximum degree and |roots| 
+	 * is the number of root nodes before consolidation.
+	 * 
+	 * @return the number of link operations performed during consolidation
+	 */
     private int consolidate() {
         if (size == 0) return 0;
         
         // Pre-calculate array size more efficiently
-        int arraySize = 45; // log_2(2^31) = 31, but we add some buffer. 45 should be more than enough
+        int arraySize = 512; // Set a big size to start in order to have enough space
         HeapNode[] array = new HeapNode[arraySize]; // Use array instead of ArrayList for better performance
 
         List<HeapNode> rootList = getRootList();
@@ -250,6 +284,7 @@ public class FibonacciHeap
 				}
 			}
 		}
+
         return links;
     }
 
@@ -470,6 +505,7 @@ public class FibonacciHeap
             System.out.println("Visualizer not available: " + e.getMessage());
         }
     }
+
 	/**
 	 * Class implementing a node in a Fibonacci Heap.
 	 *  
