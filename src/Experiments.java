@@ -5,33 +5,61 @@ public class Experiments {
     
     static final int n = 464646;
 
-    public static List<Integer> getPermutation() {
-        List<Integer> permutation = new ArrayList<>();
-        for (int i=1; i<=n; i++) {
-            permutation.add(i);
+    public static class Result {
+        public int[] keys;
+        public int[] ithLargestIndexes;
+
+        public Result(int[] keys, int[] ithLargestIndexes) {
+            this.keys = keys;
+            this.ithLargestIndexes = ithLargestIndexes;
         }
-        Collections.shuffle(permutation);
-        return permutation;
     }
 
-    public static void exp1(FibonacciHeap heap) {
+    public static Result generatePermutationAndRanking() {
+        // Generate 1..n and shuffle
+        List<Integer> keysList = new ArrayList<>();
+        for (int i = 1; i <= n; i++) keysList.add(i);
+        Collections.shuffle(keysList);
+        // Convert to int array
+        int[] keys = keysList.stream().mapToInt(Integer::intValue).toArray();
+        // Create index array
+        Integer[] indices = new Integer[n];
+        for (int i = 0; i < n; i++) indices[i] = i;
+        // Sort indices by keys value (descending)
+        Arrays.sort(indices, (a, b) -> Integer.compare(keys[b], keys[a]));
+        // Convert to int[]
+        int[] ithLargestIndexes = Arrays.stream(indices).mapToInt(Integer::intValue).toArray();
+        return new Result(keys, ithLargestIndexes);
+    }
+
+    public static void exp1(FibonacciHeap heap, Result result) {
         
         // initialize random-order keys
-        List<Integer> keys = getPermutation();
+        int[] keys = result.keys;
+        int[] ithLargestIndexes = result.ithLargestIndexes;
         
         // insert into a heap
-        for (int key: keys) {
-            heap.insert(key, "");
+        FibonacciHeap.HeapNode[] nodes = new FibonacciHeap.HeapNode[n];
+        for (int i = 0; i < n; i++) {
+            nodes[i] = heap.insert(keys[i], "");
         }
 
         // delete the min
         heap.deleteMin();
 
         // delete max repeatedly
+        int i = 0;
         while (heap.size() > 46) {
-            heap.delete(heap.findMin().prev);
+            heap.delete(nodes[ithLargestIndexes[i]]);
+            i++;
         }
     }
+
+
+    public static void exp2(FibonacciHeap heap) {
+        // TODO
+    }
+
 
     public static void main(String[] args) {
         
@@ -39,32 +67,38 @@ public class Experiments {
         
         try (PrintWriter writer = new PrintWriter(new FileWriter("results.csv"))) {
             
+            // Print table header
             writer.println("c,TimeMillis,Size,TotalLinks,TotalCuts,NumTrees");
+            
             for (int c : cValues) {
                 System.out.println("Currect c: " + c);
                 
-                int durations = 0, sizes = 0, links = 0, cuts = 0, trees = 0;
                 final int REPS = 20;
+                int durations = 0, sizes = 0, links = 0, cuts = 0, trees = 0;
                 for (int i = 0; i < REPS; i++) { // average over REPS exps.
+                    
+                    // Initialize
                     FibonacciHeap heap = new FibonacciHeap(c);
+                    Result result = generatePermutationAndRanking();
     
                     // Measure runtime
                     long start = System.currentTimeMillis();
-                    exp1(heap);
+                    exp1(heap, result);
                     long end = System.currentTimeMillis();
                     long duration = end - start;
                     
+                    // Increase sums
                     durations += duration;
                     sizes += heap.size();
                     links += heap.totalLinks();
                     cuts += heap.totalCuts();
                     trees += heap.numTrees();
                 }
+                
                 // Write values to CSV
                 writer.printf("%d,%d,%d,%d,%d,%d%n",
                     c, durations/REPS, sizes/REPS, links/REPS, cuts/REPS, trees/REPS);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
