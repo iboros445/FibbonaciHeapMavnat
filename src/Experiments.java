@@ -38,17 +38,28 @@ public class Experiments {
         final int[] cValues = { 2, 3, 4, 10, 20, 100, 1000, 5000 };
         
         try (PrintWriter writer = new PrintWriter(new FileWriter("results.csv"))) {
+            
+            writer.println("c,TimeMillis,Size,TotalLinks,TotalCuts,NumTrees");
+            
             for (int c : cValues) {
-                
                 FibonacciHeap heap = new FibonacciHeap(c);
-                
-                // measure runtime
+
+                // Measure runtime
                 long start = System.currentTimeMillis();
                 exp1(heap);
                 long end = System.currentTimeMillis();
+                long duration = end - start;
 
-                // print to 
-            }
+                // Write values to CSV
+                writer.printf("%d,%d,%d,%d,%d,%d%n",
+                    c,
+                    duration,
+                    heap.size(),
+                    heap.totalLinks(),
+                    heap.totalCuts(),
+                    heap.numTrees()
+                );
+    }
         } catch (IOException e) {
             e.printStackTrace();
         }
