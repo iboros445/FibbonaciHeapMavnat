@@ -40,11 +40,10 @@ public class Experiments {
         try (PrintWriter writer = new PrintWriter(new FileWriter("results.csv"))) {
             
             writer.println("c,TimeMillis,Size,TotalLinks,TotalCuts,NumTrees");
-            
-            int durations = 0, sizes = 0, links = 0, cuts = 0, trees = 0;
-            
             for (int c : cValues) {
                 System.out.println("Currect c: " + c);
+                
+                int durations = 0, sizes = 0, links = 0, cuts = 0, trees = 0;
                 final int REPS = 20;
                 for (int i = 0; i < REPS; i++) { // average over REPS exps.
                     FibonacciHeap heap = new FibonacciHeap(c);
