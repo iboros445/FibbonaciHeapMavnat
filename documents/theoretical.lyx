@@ -1,0 +1,459 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass heb-article
+\begin_preamble
+\usepackage[use-david]{culmus}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language hebrew
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1.5cm
+\topmargin 2cm
+\rightmargin 1.5cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Section
+א
+\end_layout
+
+\begin_layout Standard
+ננסח מחדש:
+\end_layout
+
+\begin_layout Standard
+למה:
+\end_layout
+
+\begin_layout Standard
+יהי 
+\begin_inset Formula $x$
+\end_inset
+
+ צומת ממעלה 
+\begin_inset Formula $k$
+\end_inset
+
+ ויהיו 
+\begin_inset Formula $y_{1},y_{2}\dots y_{k}$
+\end_inset
+
+ הילדים של 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ בסדר בו הם נקשרו ל-
+\begin_inset Formula $x$
+\end_inset
+
+.
+ אזי - המעלה של 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ היא לפחות 
+\begin_inset Formula $i-c$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הוכחה:
+\end_layout
+
+\begin_layout Standard
+כאשר 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ חובר ל-
+\begin_inset Formula $x$
+\end_inset
+
+ האיברים 
+\begin_inset Formula $y_{1},y_{2}\dots y_{i-1}$
+\end_inset
+
+ כבר היו ילדים של 
+\begin_inset Formula $x$
+\end_inset
+
+ בזמן הזה.
+ המעלה של 
+\begin_inset Formula $x$
+\end_inset
+
+ היתה 
+\begin_inset Formula $i-1$
+\end_inset
+
+,
+ זו גם הייתה המעלה של 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ מכיוון שמאחדים רק עצים מאותה מעלה.
+ מכיוון ש
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ הוא עדיין בן של 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ הוא איבד לכל היותר 
+\begin_inset Formula $c-1$
+\end_inset
+
+ בנים מהגדרת העץ החדשה (משום שה-
+\begin_inset Formula $\text{cuts}$
+\end_inset
+
+ יכולים לחתוך עד 
+\begin_inset Formula $c-1$
+\end_inset
+
+ קשתות) ולכן מעלתו היא לפחות 
+\begin_inset Formula $i-1-(c-1)=i-c$
+\end_inset
+
+ ונסיים.
+\end_layout
+
+\begin_layout Section
+ב
+\end_layout
+
+\begin_layout Standard
+נוכיח שהפתרון הינו 
+\begin_inset Formula $a_{n}=\Omega(b^{n})$
+\end_inset
+
+.
+ נבחין:
+ 
+\begin_inset Formula $a_{n}=a_{n-k}+a_{n-1}$
+\end_inset
+
+ לכן:
+ 
+\begin_inset Formula $x^{n}=x^{n-k}+x^{n-1}$
+\end_inset
+
+ (הפונקציה היוצרת).
+ נחלק ב
+\begin_inset Formula $x^{n-k}$
+\end_inset
+
+:
+ 
+\begin_inset Formula $f(x)=x^{k}-1-x^{k-1}$
+\end_inset
+
+.
+ נמצא את נקודות החיתוך של הגרף,
+ מחדוו
+\begin_inset Quotes erd
+\end_inset
+
+א יש מינימום כאשר 
+\begin_inset Formula $k$
+\end_inset
+
+ זוגי אחרת אין מינימום,
+ במידה ויש מינימום הפתרון השלילי יתבטל.
+ נחקור את הפונקציה ונגלה שהמינימום נמצא מימין ל
+\numeric on
+0.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ומשמאל ל
+\numeric on
+1
+\numeric off
+.(
+\begin_inset Formula $x=\frac{k-1}{k}$
+\end_inset
+
+ לאחר גזירה והשוואה ל
+\numeric on
+0
+\numeric off
+,
+ לכן יהיה בין
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ל
+\numeric on
+1
+\numeric off
+) ונסיק ממיקום המינימום כי החיתוך יהיה מימין ל
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ולכן יש שורש שגדול מ
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+והוא היחיד שלא יתבטל ובסה
+\begin_inset Quotes erd
+\end_inset
+
+כ 
+\begin_inset Formula $a_{n}=\Omega(b^{n})$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $b>1$
+\end_inset
+
+ כנדרש.
+\end_layout
+
+\begin_layout Section
+ג
+\end_layout
+
+\begin_layout Standard
+נקח ערימה עם 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים.
+ נבחין כי משום שמספר הצמתים בעץ מסעיף ב' הוא 
+\begin_inset Formula $\Omega(b^{k})$
+\end_inset
+
+ כי הגובה של הערימה יהיה 
+\begin_inset Formula $O(n)$
+\end_inset
+
+ ולכן הדרגה הקמסימלית תהיה 
+\begin_inset Formula $O(\log_{b}n)=O(\log n)$
+\end_inset
+
+ כנדרש ונסיים.
+\end_layout
+
+\end_body
+\end_document
