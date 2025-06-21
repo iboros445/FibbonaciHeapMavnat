@@ -41,25 +41,31 @@ public class Experiments {
             
             writer.println("c,TimeMillis,Size,TotalLinks,TotalCuts,NumTrees");
             
+            int durations = 0, sizes = 0, links = 0, cuts = 0, trees = 0;
+            
             for (int c : cValues) {
-                FibonacciHeap heap = new FibonacciHeap(c);
-
-                // Measure runtime
-                long start = System.currentTimeMillis();
-                exp1(heap);
-                long end = System.currentTimeMillis();
-                long duration = end - start;
-
+                System.out.println("Currect c: " + c);
+                final int REPS = 20;
+                for (int i = 0; i < REPS; i++) { // average over REPS exps.
+                    FibonacciHeap heap = new FibonacciHeap(c);
+    
+                    // Measure runtime
+                    long start = System.currentTimeMillis();
+                    exp1(heap);
+                    long end = System.currentTimeMillis();
+                    long duration = end - start;
+                    
+                    durations += duration;
+                    sizes += heap.size();
+                    links += heap.totalLinks();
+                    cuts += heap.totalCuts();
+                    trees += heap.numTrees();
+                }
                 // Write values to CSV
                 writer.printf("%d,%d,%d,%d,%d,%d%n",
-                    c,
-                    duration,
-                    heap.size(),
-                    heap.totalLinks(),
-                    heap.totalCuts(),
-                    heap.numTrees()
-                );
-    }
+                    c, durations/REPS, sizes/REPS, links/REPS, cuts/REPS, trees/REPS);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
