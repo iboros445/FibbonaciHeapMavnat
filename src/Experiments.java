@@ -56,8 +56,28 @@ public class Experiments {
     }
 
 
-    public static void exp2(FibonacciHeap heap) {
-        // TODO
+    public static void exp2(FibonacciHeap heap, Result result) {
+        // initialize random-order keys
+        int[] keys = result.keys;
+        int[] ithLargestIndexes = result.ithLargestIndexes;
+        
+        // insert into a heap
+        FibonacciHeap.HeapNode[] nodes = new FibonacciHeap.HeapNode[n];
+        for (int i = 0; i < n; i++) {
+            nodes[i] = heap.insert(keys[i], "");
+        }
+
+        // delete the min
+        heap.deleteMin();
+
+        // decrese key of max to 0 until only 46 nonzero keys remain
+        for (int i=0; i < n-46; i++) {
+            FibonacciHeap.HeapNode max = nodes[ithLargestIndexes[i]];
+            heap.decreaseKey(max, max.key);
+        }
+
+        // delete the min again
+        heap.deleteMin();
     }
 
 
@@ -83,7 +103,7 @@ public class Experiments {
     
                     // Measure runtime
                     long start = System.currentTimeMillis();
-                    exp1(heap, result);
+                    exp2(heap, result);
                     long end = System.currentTimeMillis();
                     long duration = end - start;
                     
