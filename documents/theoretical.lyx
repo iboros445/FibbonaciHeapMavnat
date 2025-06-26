@@ -210,223 +210,125 @@
 \end_layout
 
 \begin_layout Standard
-נוכיח שהפתרון הינו 
+נוכיח ש־ 
 \begin_inset Formula $a_{n}=\Omega(b^{n})$
 \end_inset
 
 .
- נבחין:
- 
-\begin_inset Formula $a_{n}=a_{n-k}+a_{n-1}$
+ העברת אגף תיתן 
+\begin_inset Formula $a_{n}-a_{n-1}-a_{n-k}=0$
 \end_inset
 
- לכן:
- 
-\begin_inset Formula $x^{n}=x^{n-k}+x^{n-1}$
-\end_inset
-
- (הפונקציה היוצרת).
- נחלק ב
-\begin_inset Formula $x^{n-k}$
+.
+ נציב 
+\begin_inset Formula $a_{n}=x^{n}$
 \end_inset
 
 :
+\begin_inset Formula 
+\begin{align*}
+x^{n}-x^{n-1}-x^{n-k} & =0\\
+x^{n-k}\left(x^{k}-x^{k-1}-1\right) & =0
+\end{align*}
+
+\end_inset
+
+נשים לב שכל 
+\begin_inset Formula $x$
+\end_inset
+
+ שהוא שורש של הפולינום ב־
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
  
-\begin_inset Formula $f(x)=x^{k}-1-x^{k-1}$
+\begin_inset Formula $\mathrm{LHS}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ נותן משוואה נכונה;
+ כלומר פותר את נוסחת הנסיגה.
+ נגדיר 
+\begin_inset Formula $f(x)\coloneqq x^{k}-x^{k-1}-1$
 \end_inset
 
 .
- נמצא את נקודות החיתוך של הגרף,
- מחדוו
-\begin_inset Quotes erd
+ נחפש שורשים של 
+\begin_inset Formula $f$
 \end_inset
 
-א יש מינימום כאשר 
-\begin_inset Formula $k$
+ (ובפרט של 
+\begin_inset Formula $\mathrm{LHS}$
 \end_inset
 
- זוגי אחרת אין מינימום,
- במידה ויש מינימום הפתרון השלילי יתבטל.
- נחקור את הפונקציה ונגלה שהמינימום נמצא מימין ל
-\numeric on
-0.5
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\numeric off
-\nospellcheck off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
+) שגדולים מ־ 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ נשים לב כי
+\begin_inset Formula 
+\begin{align*}
+f(1) & =1-1-1=-1\\
+f(2) & =2^{k}-2^{k-1}-1=2^{k-1}(2-1)-1=2^{k-1}-1\geq0\qquad\forall k\geq1
+\end{align*}
+
+\end_inset
+
+כלומר,
  
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\nospellcheck default
-\bar default
-\strikeout default
-\xout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-ומשמאל ל
-\numeric on
-1
-\numeric off
-.(
-\begin_inset Formula $x=\frac{k-1}{k}$
+\begin_inset Formula $f$
 \end_inset
 
- לאחר גזירה והשוואה ל
-\numeric on
-0
-\numeric off
+ משנה סימן בתחום 
+\begin_inset Formula $[1,2]$
+\end_inset
+
 ,
- לכן יהיה בין
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\nospellcheck off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
- 
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\numeric on
-\nospellcheck default
-\bar default
-\strikeout default
-\xout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-0.5
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\numeric off
-\nospellcheck off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
- 
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\nospellcheck default
-\bar default
-\strikeout default
-\xout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-ל
-\numeric on
-1
-\numeric off
-) ונסיק ממיקום המינימום כי החיתוך יהיה מימין ל
-\numeric on
-1
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\numeric off
-\nospellcheck off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
- 
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\nospellcheck default
-\bar default
-\strikeout default
-\xout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-ולכן יש שורש שגדול מ
-\numeric on
-1
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\numeric off
-\nospellcheck off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
- 
-\family default
-\series default
-\shape default
-\size default
-\emph default
-\nospellcheck default
-\bar default
-\strikeout default
-\xout default
-\uuline default
-\uwave default
-\noun default
-\color inherit
-והוא היחיד שלא יתבטל ובסה
-\begin_inset Quotes erd
+ אז מהרציפות שלה ומשפט ערך הביניים נסיק כי קיים שורש ב־ 
+\begin_inset Formula $(1,2]$
 \end_inset
 
-כ 
-\begin_inset Formula $a_{n}=\Omega(b^{n})$
-\end_inset
-
- כאשר 
+.
+ במילים אחרות,
+ קיים 
 \begin_inset Formula $b>1$
 \end_inset
 
+ כך ש־ 
+\begin_inset Formula $b^{n}$
+\end_inset
+
+ פתרון לנוסחת הנסיגה.
+ בפרט,
+ 
+\begin_inset Formula $a_{n}=\Omega(b^{n})$
+\end_inset
+
+,
  כנדרש.
 \end_layout
 
@@ -435,24 +337,95 @@
 \end_layout
 
 \begin_layout Standard
-נקח ערימה עם 
+נסמן,
+ 
+\begin_inset Formula $S(d)$
+\end_inset
+
+:
+ הגודל המינימלי של עץ שמושרש בצומת מדרגה 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ אז 
+\begin_inset Formula $S(d)\geq1+\sum_{i=1}^{d}S(\deg v_{i})$
+\end_inset
+
+ בסכימה על כל אחד מתתי־העצים שמושרשים בילדים של הצומת מדרגה 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ מהלמה שבסעיף א,
+ 
+\begin_inset Formula $\deg v_{i}\geq i-c$
+\end_inset
+
+.
+ לכן
+\begin_inset Formula 
+\[
+S(d)\geq1+\sum_{i=1}^{d}S(\deg v_{i})\geq1+\sum_{i=1}^{d}S(i-c)
+\]
+
+\end_inset
+
+כמו כן
+\begin_inset Formula 
+\[
+S(d-1)\geq1+\sum_{i=1}^{d-1}S(i-c)
+\]
+
+\end_inset
+
+נחסר את הא
+\begin_inset Quotes eld
+\end_inset
+
+ש ונקבל כי
+\begin_inset Formula 
+\begin{align*}
+S(d)-S(d-1)\geq & \left(1+\sum_{i=1}^{d}S(i-c)\right)-\left(1+\sum_{i=1}^{d-1}S(i-c)\right)\\
+= & 1+\sum_{i=1}^{d}S(i-c)-1-\sum_{i=1}^{d-1}S(i-c)\\
+= & \sum_{i=1}^{d}S(i-c)-\sum_{i=1}^{d-1}S(i-c)=\boxed{S(d-c)}
+\end{align*}
+
+\end_inset
+
+ראינו בסעיף ב פתרון לנוסחת נסיגה שקולה (כאן 
+\begin_inset Formula $k=c$
+\end_inset
+
+).
+ מכאן נובע ש־ 
+\begin_inset Formula $S(d)=\Omega(b^{d})$
+\end_inset
+
+ עבור 
+\begin_inset Formula $b>1$
+\end_inset
+
+.
+ לסיום:
+ תהי ערימה בגודל 
 \begin_inset Formula $n$
 \end_inset
 
- איברים.
- נבחין כי משום שמספר הצמתים בעץ מסעיף ב' הוא 
-\begin_inset Formula $\Omega(b^{k})$
+ וצומת מדרגה 
+\begin_inset Formula $d$
 \end_inset
 
- כי הגובה של הערימה יהיה 
-\begin_inset Formula $O(n)$
+.
+ אז
+\begin_inset Formula 
+\[
+n\geq S(d)\in\Omega(b^{d})\implies b^{d}=O(n)\implies\boxed{d=O(\log n)}
+\]
+
 \end_inset
 
- ולכן הדרגה הקמסימלית תהיה 
-\begin_inset Formula $O(\log_{b}n)=O(\log n)$
-\end_inset
-
- כנדרש ונסיים.
+כנדרש.
 \end_layout
 
 \end_body
